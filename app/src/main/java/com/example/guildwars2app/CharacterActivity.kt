@@ -23,6 +23,7 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var characterNames:Array<String>
     private lateinit var characters:Array<CharacterDetails>
     lateinit var ApiKey:String
+    internal lateinit var adapter: CharacterAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,9 @@ class CharacterActivity : AppCompatActivity() {
         listView = findViewById<ListView>(R.id.character_list_view)
         sharedPref = getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
         ApiKey = sharedPref.getString(getString(R.string.shared_api_name), "No key").toString()
+        adapter = CharacterAdapter(this, emptyArray())
+        listView.adapter = adapter
+
 
         getCharacters(applicationContext)
 
@@ -87,7 +91,8 @@ class CharacterActivity : AppCompatActivity() {
                 Request.Method.GET, url, null,
                 { response ->
                     println(character)
-                    tmpCharacters[i] = loadCharacterDetails(response, i)
+                    adapter.dataSource = adapter.dataSource + loadCharacterDetails(response, i)
+                    adapter.notifyDataSetChanged()
 
                 }, Response.ErrorListener { error ->
                     Toast.makeText(applicationContext, error.toString(), Toast.LENGTH_LONG).show()
@@ -98,9 +103,9 @@ class CharacterActivity : AppCompatActivity() {
             queue.add(characterResponse)
             characters = tmpCharacters as Array<CharacterDetails>
 
-            val adapter = CharacterAdapter(this, characters)
-            listView.adapter = adapter
+
         }
+
 
     }
 

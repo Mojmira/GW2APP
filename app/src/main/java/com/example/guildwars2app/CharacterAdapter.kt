@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 
 class CharacterAdapter(private val context: Context,
-                       private val dataSource: Array<CharacterDetails>): BaseAdapter() {
+                        var dataSource: Array<CharacterDetails>): BaseAdapter() {
 
     private val inflater: LayoutInflater
             = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -19,7 +19,7 @@ class CharacterAdapter(private val context: Context,
         return dataSource.size
     }
 
-    override fun getItem(position: Int): Any {
+    override fun getItem(position: Int): CharacterDetails {
         return dataSource[position]
     }
 
@@ -36,13 +36,16 @@ class CharacterAdapter(private val context: Context,
         val ageView = rowView.findViewById(R.id.ageView) as TextView
         val profession = rowView.findViewById(R.id.professionView) as ImageView
 
-        val character = getItem(position) as CharacterDetails
+        val character = getItem(position)
+        if( character !== null){
         nameView.text = character.name
         raceView.text = character.race
         genderView.text = character.gender
         levelView.text = character.level.toString()
         ageView.text = ConvertSecToDay(character.age)
-        profession.setImageResource(R.drawable.mesmer_icon)
+            ChooseProfessionImg(character.profesion, profession)
+        }
+        else println("Character null")
 
         return rowView
     }
@@ -51,7 +54,7 @@ class CharacterAdapter(private val context: Context,
     {
         val day = n / (24*3600).toInt()
         val tmp = n % (24*3600)
-        val hour = (n/3600).toInt()
+        val hour = (tmp/3600).toInt()
         val tmp2  =tmp% 3600
         val minutes = tmp2/60
         val seconds = tmp2%60
@@ -59,5 +62,14 @@ class CharacterAdapter(private val context: Context,
         return ( "%d days %d hours %d minutes %d seconds").format(day,hour,minutes,seconds)
 
 
+    }
+
+    fun ChooseProfessionImg(prof:String, profView: ImageView)
+    {
+        println(prof)
+        if(prof == "Mesmer")
+            profView.setImageResource(R.drawable.mesmer_icon)
+        else if (prof == "Revenant")
+            profView.setImageResource(R.drawable.revenant_icon)
     }
 }
