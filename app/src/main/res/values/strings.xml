@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">GuildWars2App</string>
     <string name="shared_pref_name">api_key_pref</string>
+    <string name="shared_api_name">api_key</string>
+    <string name="characters">Characters</string>
+    <string name="equipment">Equipment</string>
+    <string name="daily_achievements">Daily Achievements</string>
+    <string name="events">Events</string>
+    <string name="gemstones">Gemstones</string>
+    <string name="wallet">Wallet</string>
 </resources>
