@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GuildWars2App</string>
+    <string name="shared_pref_name">api_key_pref</string>
+</resources>
