@@ -108,6 +108,7 @@ class CharacterActivity : AppCompatActivity() {
 
             val tmpCharacter = CharacterDetails(
 
+                response.getString("name").toString(),
                 response.getString("race").toString(),
                 response.getString("gender").toString(),
                 response.getString("profession").toString(),
@@ -119,7 +120,7 @@ class CharacterActivity : AppCompatActivity() {
             return tmpCharacter
             }
 
-        return CharacterDetails("error","error","error",0,0,"error")
+        return CharacterDetails("error","error","error","error",0,0,"error")
     }
 
 }
