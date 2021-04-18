@@ -18,31 +18,31 @@ import com.android.volley.toolbox.JsonObjectRequest
 
 
 
-class AccountAge : AppCompatActivity(){
+class AccountWallet : AppCompatActivity(){
 
     internal lateinit var sharedPref: SharedPreferences
     lateinit var queue: RequestQueue
     lateinit var ApiKey:String
-    var Age : Int = 0
+    lateinit var Wallet : Array<Pair<Int,Int>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
-       ApiKey = sharedPref.getString(getString(R.string.shared_api_name), "No key").toString()
+        setContentView(R.layout.activity_wallet)
+        sharedPref = getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
+        ApiKey = sharedPref.getString(getString(R.string.shared_api_name), "No key").toString()
         getAccountInfo(applicationContext)
-        print(Age)
     }
 
 
     fun getAccountInfo(context: Context){
 
-        val url = "https://api.guildwars2.com/v2/account?access_token=%s".format(ApiKey)
+        val url = "https://api.guildwars2.com/v2/account/wallet?access_token=%s".format(ApiKey)
         queue = Volley.newRequestQueue(context)
 
-        val howOld = JsonObjectRequest( Request.Method.GET,url, null,
+        val howOld = JsonArrayRequest( Request.Method.GET,url, null,
             { response ->
                 print("Done")
-                Age = loadAccountData(response)
+                loadAccountData(response)
             }, Response.ErrorListener {
                     error ->
                 Toast.makeText(applicationContext, error.toString(), Toast.LENGTH_LONG).show()
@@ -52,11 +52,21 @@ class AccountAge : AppCompatActivity(){
         queue.add(howOld)
     }
 
-    fun loadAccountData(response: JSONObject?) : Int{
+    fun loadAccountData(response: JSONArray){
+
         response?.let{
-            return response.getString("name").toString().toInt()
+            val walletCount = response.length()
+            val tmpData = arrayOfNulls<Pair<Int,Int>>(walletCount)
+            for(i in 0 until walletCount){
+                val id = response.getJSONObject(i).getString("id").toInt()
+                val value = response.getJSONObject(i).getString("value").toInt()
+
+                tmpData[i] = Pair(id,value)
+                print(tmpData[i]?.second)
+            }
+            Wallet = tmpData as Array<Pair<Int, Int>>
         }
-        return -1
+
     }
 
 }

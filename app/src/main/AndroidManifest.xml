@@ -24,6 +24,9 @@
         <activity
             android:name=".CharacterActivity"
             android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".AccountWallet"
+            android:parentActivityName=".MenuActivity" />
     </application>
 
 </manifest>

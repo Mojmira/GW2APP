@@ -78,6 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/wallet"
+                android:onClick="goToAccountWallet"
                 tools:layout_margin="8dp" />
         </TableRow>
     </TableLayout>
