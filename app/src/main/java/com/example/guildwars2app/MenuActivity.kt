@@ -19,4 +19,9 @@ class MenuActivity : AppCompatActivity(){
         startActivity(intent)
     }
 
+    fun goToAccountAge(view: View) {
+        val intent = Intent(this, AccountAge::class.java)
+        startActivity(intent)
+    }
+
 }

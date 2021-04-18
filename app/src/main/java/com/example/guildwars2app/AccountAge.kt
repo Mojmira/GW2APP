@@ -23,11 +23,14 @@ class AccountAge : AppCompatActivity(){
     internal lateinit var sharedPref: SharedPreferences
     lateinit var queue: RequestQueue
     lateinit var ApiKey:String
+    var Age : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
        ApiKey = sharedPref.getString(getString(R.string.shared_api_name), "No key").toString()
+        getAccountInfo(applicationContext)
+        print(Age)
     }
 
 
@@ -36,17 +39,24 @@ class AccountAge : AppCompatActivity(){
         val url = "https://api.guildwars2.com/v2/account?access_token=%s".format(ApiKey)
         queue = Volley.newRequestQueue(context)
 
-        val charactersList = JsonArrayRequest( Request.Method.GET,url, null,
+        val howOld = JsonObjectRequest( Request.Method.GET,url, null,
             { response ->
-                println("Success!")
+                print("Done")
+                Age = loadAccountData(response,context)
             }, Response.ErrorListener {
                     error ->
                 Toast.makeText(applicationContext, error.toString(), Toast.LENGTH_LONG).show()
                 println(error.toString())}
 
         )
-        queue.add(charactersList)
+        queue.add(howOld)
     }
 
+    fun loadAccountData(response: JsonObjectRequest) : Int{
+        response?.let{
+            return response.getString("name").toString().toInt()
+        }
+        return -1
+    }
 
 }
