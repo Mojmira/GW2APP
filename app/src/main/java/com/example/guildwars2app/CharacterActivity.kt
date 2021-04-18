@@ -98,6 +98,8 @@ class CharacterActivity : AppCompatActivity() {
             queue.add(characterResponse)
             characters = tmpCharacters as Array<CharacterDetails>
 
+            val adapter = CharacterAdapter(this, characters)
+            listView.adapter = adapter
         }
 
     }

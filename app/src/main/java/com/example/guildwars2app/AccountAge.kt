@@ -42,7 +42,7 @@ class AccountAge : AppCompatActivity(){
         val howOld = JsonObjectRequest( Request.Method.GET,url, null,
             { response ->
                 print("Done")
-                Age = loadAccountData(response,context)
+                Age = loadAccountData(response)
             }, Response.ErrorListener {
                     error ->
                 Toast.makeText(applicationContext, error.toString(), Toast.LENGTH_LONG).show()
@@ -52,7 +52,7 @@ class AccountAge : AppCompatActivity(){
         queue.add(howOld)
     }
 
-    fun loadAccountData(response: JsonObjectRequest) : Int{
+    fun loadAccountData(response: JSONObject?) : Int{
         response?.let{
             return response.getString("name").toString().toInt()
         }

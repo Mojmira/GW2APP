@@ -37,7 +37,27 @@ class CharacterAdapter(private val context: Context,
         val profession = rowView.findViewById(R.id.professionView) as ImageView
 
         val character = getItem(position) as CharacterDetails
+        nameView.text = character.name
+        raceView.text = character.race
+        genderView.text = character.gender
+        levelView.text = character.level.toString()
+        ageView.text = ConvertSecToDay(character.age)
+        profession.setImageResource(R.drawable.mesmer_icon)
 
         return rowView
+    }
+
+    fun ConvertSecToDay(n:Int):String
+    {
+        val day = n / (24*3600).toInt()
+        val tmp = n % (24*3600)
+        val hour = (n/3600).toInt()
+        val tmp2  =tmp% 3600
+        val minutes = tmp2/60
+        val seconds = tmp2%60
+
+        return ( "%d days %d hours %d minutes %d seconds").format(day,hour,minutes,seconds)
+
+
     }
 }
