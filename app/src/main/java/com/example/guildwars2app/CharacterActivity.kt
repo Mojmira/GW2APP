@@ -29,7 +29,7 @@ class CharacterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = R.string.characters.toString()
+        title = "Characters"
         setContentView(R.layout.activity_characters)
         listView = findViewById<ListView>(R.id.character_list_view)
         sharedPref = getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)

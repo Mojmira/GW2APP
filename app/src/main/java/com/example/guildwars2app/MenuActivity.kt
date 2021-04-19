@@ -29,4 +29,9 @@ class MenuActivity : AppCompatActivity(){
         startActivity(intent)
     }
 
+    fun goToStatistics(view: View) {
+        val intent = Intent(this, StatisticsActivity::class.java)
+        startActivity(intent)
+    }
+
 }

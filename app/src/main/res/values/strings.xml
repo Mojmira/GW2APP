@@ -8,4 +8,5 @@
     <string name="events">Events</string>
     <string name="gemstones">Gemstones</string>
     <string name="wallet">Wallet</string>
+    <string name="pvp_statistics">PvP Statistics</string>
 </resources>

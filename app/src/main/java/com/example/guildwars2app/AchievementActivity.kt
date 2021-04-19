@@ -21,10 +21,11 @@ lateinit var queue: RequestQueue
 private lateinit var achievements:Array<AchievementDetails>
 internal lateinit var adapter: AchievementAdapter
 
+
 class AchievementActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        title = R.string.daily_achievements.toString()
+        title = "Daily Achievements"
         setContentView(R.layout.activity_achievements)
         listView = findViewById<ListView>(R.id.achievements_list_view)
         adapter = AchievementAdapter(this, emptyArray())

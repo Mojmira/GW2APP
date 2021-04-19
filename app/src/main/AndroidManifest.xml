@@ -30,6 +30,9 @@
         <activity
             android:name=".AchievementActivity"
             android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".StatisticsActivity"
+            android:parentActivityName=".MenuActivity" />
     </application>
 
 </manifest>
