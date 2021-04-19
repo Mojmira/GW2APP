@@ -27,6 +27,9 @@
         <activity
             android:name=".AccountWallet"
             android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".AchievementActivity"
+            android:parentActivityName=".MenuActivity" />
     </application>
 
 </manifest>

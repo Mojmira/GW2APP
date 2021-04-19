@@ -37,11 +37,12 @@ class AccountWallet : AppCompatActivity(){
     fun getAccountInfo(context: Context){
 
         val url = "https://api.guildwars2.com/v2/account/wallet?access_token=%s".format(ApiKey)
+
         queue = Volley.newRequestQueue(context)
 
         val howOld = JsonArrayRequest( Request.Method.GET,url, null,
             { response ->
-                print("Done")
+                println("Done")
                 loadAccountData(response)
             }, Response.ErrorListener {
                     error ->
@@ -62,7 +63,7 @@ class AccountWallet : AppCompatActivity(){
                 val value = response.getJSONObject(i).getString("value").toInt()
 
                 tmpData[i] = Pair(id,value)
-                print(tmpData[i]?.second)
+                println(tmpData[i]?.second)
             }
             Wallet = tmpData as Array<Pair<Int, Int>>
         }

@@ -71,5 +71,9 @@ class CharacterAdapter(private val context: Context,
             profView.setImageResource(R.drawable.mesmer_icon)
         else if (prof == "Revenant")
             profView.setImageResource(R.drawable.revenant_icon)
+        else if (prof == "Ranger")
+            profView.setImageResource(R.drawable.ranger_icon)
+        else if (prof == "Necromancer")
+            profView.setImageResource(R.drawable.necromancer_icon)
     }
 }
