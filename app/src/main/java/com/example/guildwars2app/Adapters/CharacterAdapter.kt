@@ -1,4 +1,4 @@
-package com.example.guildwars2app
+package com.example.guildwars2app.Adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.guildwars2app.DataDetails.CharacterDetails
+import com.example.guildwars2app.R
 
 class CharacterAdapter(private val context: Context,
                         var dataSource: Array<CharacterDetails>): BaseAdapter() {

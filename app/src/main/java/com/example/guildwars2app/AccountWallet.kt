@@ -1,12 +1,12 @@
 package com.example.guildwars2app
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.SystemClock.sleep
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
@@ -14,13 +14,12 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import org.json.JSONArray
-import org.json.JSONObject
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.JsonObjectRequest
+import com.example.guildwars2app.DataDetails.CoinDetails
 
 
 class AccountWallet : AppCompatActivity(), View.OnClickListener {
-
+    private lateinit var listView :ListView
     internal lateinit var sharedPref: SharedPreferences
     lateinit var queue: RequestQueue
     lateinit var ApiKey:String
@@ -40,9 +39,33 @@ class AccountWallet : AppCompatActivity(), View.OnClickListener {
         MergedMonster = emptyArray()
         getAccountInfo(applicationContext)
         getCoinsDetails(applicationContext)
+
+
+
+
     }
 
-    
+    override fun onClick(view: View?) {
+        when(view?.id){
+            R.id.BUTTON->{
+                MergedMonster = MergeLists()
+                for(a in MergedMonster){
+                    println("aaaaaaaaaaaaaaaaaaaaaaaa" + a.name +" "+a.value )
+                }
+
+                listView = findViewById<ListView>(R.id.coin_list_view)
+                val coinList = MergedMonster
+                val listItems = arrayOfNulls<String>(coinList.size)
+                for (i in 0 until coinList.size) {
+                    val coin = coinList[i]
+                    listItems[i] = coin.name
+                }
+                val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
+                listView.adapter = adapter
+
+            }
+        }
+    }
 
     fun getAccountInfo(context: Context){
 
@@ -119,7 +142,7 @@ class AccountWallet : AppCompatActivity(), View.OnClickListener {
     fun MergeLists() : Array<CoinDetails>{
         var temp_list = arrayOfNulls<CoinDetails>(Wallet.size)
 
-        for(i in 0 until Wallet.size + 1){
+        for(i in 0 until Wallet.size - 1){
             for(j in 0 until WalletDetailList.size){
                 if(Wallet.contains(Pair(WalletDetailList[j].id,Wallet[i].second))){
                     temp_list[i] = WalletDetailList[j]
@@ -131,16 +154,6 @@ class AccountWallet : AppCompatActivity(), View.OnClickListener {
         return temp_list as Array<CoinDetails>
     }
 
-    override fun onClick(view: View?) {
-        when(view?.id){
-            R.id.BUTTON->{
-                MergedMonster = MergeLists()
-                for(a in MergedMonster){
-                    println("aaaaaaaaaaaaaaaaaaaaaaaa" + a.name +" "+a.value )
-                }
-            }
-        }
-    }
 }
 
 

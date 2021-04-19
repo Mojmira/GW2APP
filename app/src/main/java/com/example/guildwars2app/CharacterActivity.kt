@@ -12,6 +12,8 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.guildwars2app.Adapters.CharacterAdapter
+import com.example.guildwars2app.DataDetails.CharacterDetails
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -109,25 +111,25 @@ class CharacterActivity : AppCompatActivity() {
 
     }
 
-    private fun loadCharacterDetails(response: JSONObject?, index:Int):CharacterDetails {
+    private fun loadCharacterDetails(response: JSONObject?, index:Int): CharacterDetails {
 
         response?.let{
 
             val tmpCharacter = CharacterDetails(
 
-                response.getString("name").toString(),
-                response.getString("race").toString(),
-                response.getString("gender").toString(),
-                response.getString("profession").toString(),
-                response.getString("level").toString().toInt(),
-                response.getString("age").toString().toInt(),
-                response.getString("created").toString()
-                                )
+                    response.getString("name").toString(),
+                    response.getString("race").toString(),
+                    response.getString("gender").toString(),
+                    response.getString("profession").toString(),
+                    response.getString("level").toString().toInt(),
+                    response.getString("age").toString().toInt(),
+                    response.getString("created").toString()
+            )
 
             return tmpCharacter
             }
 
-        return CharacterDetails("error","error","error","error",0,0,"error")
+        return CharacterDetails("error", "error", "error", "error", 0, 0, "error")
     }
 
 }

@@ -1,7 +1,6 @@
 package com.example.guildwars2app
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.ListView
 import android.widget.Toast
@@ -12,6 +11,8 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.guildwars2app.Adapters.AchievementAdapter
+import com.example.guildwars2app.DataDetails.AchievementDetails
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -106,10 +107,10 @@ class AchievementActivity: AppCompatActivity() {
                 println(i)
 
                 tmp[i] = AchievementDetails(
-                    response.getJSONObject(i).getInt("id"),
-                    response.getJSONObject(i).getString("name"),
-                    response.getJSONObject(i).getString("description"),
-                    response.getJSONObject(i).getString("requirement")
+                        response.getJSONObject(i).getInt("id"),
+                        response.getJSONObject(i).getString("name"),
+                        response.getJSONObject(i).getString("description"),
+                        response.getJSONObject(i).getString("requirement")
                 )
             }
             return tmp as Array<AchievementDetails>
