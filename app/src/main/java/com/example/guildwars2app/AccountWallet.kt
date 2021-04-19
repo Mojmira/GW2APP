@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.SystemClock.sleep
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
@@ -18,23 +19,30 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 
 
-class AccountWallet : AppCompatActivity(){
+class AccountWallet : AppCompatActivity(), View.OnClickListener {
 
     internal lateinit var sharedPref: SharedPreferences
     lateinit var queue: RequestQueue
     lateinit var ApiKey:String
     lateinit var Wallet : Array<Pair<Int,Int>>
-    lateinit var WalletDetailList : Array<CoinDetails>
+    lateinit var MergedMonster : Array<CoinDetails>
+    lateinit var button: Button
+    var WalletDetailList = arrayListOf<CoinDetails>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wallet)
+        button = findViewById(R.id.BUTTON)
+        button.setOnClickListener(this)
         sharedPref = getSharedPreferences(getString(R.string.shared_pref_name), Context.MODE_PRIVATE)
         ApiKey = sharedPref.getString(getString(R.string.shared_api_name), "No key").toString()
         Wallet = emptyArray()
-        WalletDetailList = emptyArray()
+        MergedMonster = emptyArray()
         getAccountInfo(applicationContext)
+        getCoinsDetails(applicationContext)
     }
+
+    
 
     fun getAccountInfo(context: Context){
 
@@ -45,7 +53,7 @@ class AccountWallet : AppCompatActivity(){
             { response ->
                 println("Done")
                 loadAccountData(response)
-            }, Response.ErrorListener {
+            }, Response.ErrorListener{
                     error ->
                 Toast.makeText(applicationContext, error.toString(), Toast.LENGTH_LONG).show()
                 println(error.toString())}
@@ -66,7 +74,7 @@ class AccountWallet : AppCompatActivity(){
                 tmpData[i] = Pair(id,value)
             }
             Wallet = tmpData as Array<Pair<Int, Int>>
-            getCoinsDetails(applicationContext)
+
         }
     }
 
@@ -74,49 +82,68 @@ class AccountWallet : AppCompatActivity(){
 
         queue = Volley.newRequestQueue(context)
 
-        WalletDetailList = Array<CoinDetails>(Wallet.size){ CoinDetails(0,"","",0) }
-        val url = "https://api.guildwars2.com/v2/currencies?id=%d"
+        val url = "https://api.guildwars2.com/v2/currencies?ids=all"
 
-        for(i in 0 until Wallet.size){
-            var tmp_coin : CoinDetails
-            val req = JsonObjectRequest( Request.Method.GET,url.format(Wallet[i].first), null,
-                    { response ->
-                        println("Done")
-                        tmp_coin = loadCoinData(response)
-                        tmp_coin.value = Wallet[i].second
-                        WalletDetailList[i].id = tmp_coin.id
-                        WalletDetailList[i].name = tmp_coin.name
-                        WalletDetailList[i].description = tmp_coin.description
-                        WalletDetailList[i].value = tmp_coin.value
-                    }, Response.ErrorListener {
-                error ->
-                Toast.makeText(applicationContext, error.toString(), Toast.LENGTH_LONG).show()
-                println(error.toString())}
+        val req = JsonArrayRequest( Request.Method.GET,url, null,
+                { response ->
+                    println("Done")
+                    loadCoinData(response)
+                }, Response.ErrorListener {
+            error ->
+            Toast.makeText(applicationContext, error.toString(), Toast.LENGTH_LONG).show()
+            println(error.toString())}
 
             )
             queue.add(req)
 
         }
-        for(el in WalletDetailList){
-            println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + el.name +" "+ el.description+" "+el.value.toString())
-        }
 
 
-    }
+    fun loadCoinData(response: JSONArray){
 
-    fun loadCoinData(response: JSONObject) : CoinDetails{
         response?.let{
 
-            val tmpCoin = CoinDetails(
+            for(obj in 0 until response.length()){
+                val tmpCoin = CoinDetails(
 
-                    response.getString("id").toString().toInt(),
-                    response.getString("name").toString(),
-                    response.getString("description").toString(),
-                    0
-            )
-            return tmpCoin
+                        response.getJSONObject(obj).getString("id").toString().toInt(),
+                        response.getJSONObject(obj).getString("name").toString(),
+                        response.getJSONObject(obj).getString("description").toString(),
+                        0
+                )
+                WalletDetailList.add(tmpCoin)
+            }
         }
-        return CoinDetails(0,"error","error",0)
     }
 
+    fun MergeLists() : Array<CoinDetails>{
+        var temp_list = arrayOfNulls<CoinDetails>(Wallet.size)
+
+        for(i in 0 until Wallet.size + 1){
+            for(j in 0 until WalletDetailList.size){
+                if(Wallet.contains(Pair(WalletDetailList[j].id,Wallet[i].second))){
+                    temp_list[i] = WalletDetailList[j]
+                    temp_list[i]?.value = Wallet[i].second
+                }
+            }
+        }
+
+        return temp_list as Array<CoinDetails>
+    }
+
+    override fun onClick(view: View?) {
+        when(view?.id){
+            R.id.BUTTON->{
+                MergedMonster = MergeLists()
+                for(a in MergedMonster){
+                    println("aaaaaaaaaaaaaaaaaaaaaaaa" + a.name +" "+a.value )
+                }
+            }
+        }
+    }
 }
+
+
+
+
+
