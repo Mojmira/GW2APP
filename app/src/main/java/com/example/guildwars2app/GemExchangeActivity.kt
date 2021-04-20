@@ -1,35 +1,37 @@
 package com.example.guildwars2app
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.View
-import android.widget.*
-import androidx.core.widget.doOnTextChanged
+import android.view.View.OnFocusChangeListener
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.guildwars2app.R
-import com.github.mikephil.charting.charts.LineChart
-import org.json.JSONArray
-import org.json.JSONObject
 import kotlinx.android.synthetic.main.activity_exchange.*
+import org.json.JSONObject
+
 
 class GemExchangeActivity : AppCompatActivity(){
     private lateinit var form: LinearLayout
     private lateinit var coinCurrencyInput: EditText
     private lateinit var gemCurrencyInput: EditText
+    var change_coin_active : Boolean = false
+    var change_gem_active : Boolean = false
     var gemValue : Float = 0.0F
     var coinValue : Float = 0.0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exchange)
+        form = findViewById(R.id.form_container)
+        coinCurrencyInput = findViewById(R.id.currency_top_value)
+        gemCurrencyInput = findViewById(R.id.currency_bottom_value)
 
         currency_top_value.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -38,16 +40,53 @@ class GemExchangeActivity : AppCompatActivity(){
 
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                currency_bottom_value.setText(calculateValue(coinValue, s as String).toString())
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int){
+                if (change_coin_active){
+                    var number = 0.0F
+                    if(s.toString().isNotEmpty()){
+                        try {
+                            number = s?.toString().toFloat()
+                        }catch (e :ArithmeticException){
+                            println(e)
+                        }
+                    }
+                    currency_bottom_value.setText(calculateValue(coinValue, number).toString())
+                }
+            }
+        })
+
+        currency_top_value.onFocusChangeListener = OnFocusChangeListener { view, hasFocus ->
+            change_coin_active = hasFocus
+        }
+
+        currency_bottom_value.onFocusChangeListener = OnFocusChangeListener { view, hasFocus ->
+            change_gem_active = hasFocus
+        }
+
+        currency_bottom_value.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int){
+                if(change_gem_active){
+                    var number = 0.0F
+                    if(s.toString().isNotEmpty()){
+                        try {
+                            number = s?.toString().toFloat()
+                        }catch (e :ArithmeticException){
+                            println(e)
+                        }
+                    }
+                    currency_top_value.setText(calculateValue(gemValue, number).toString())
+                }
+
             }
         })
 
 
-
-        form = findViewById(R.id.form_container)
-        coinCurrencyInput = findViewById(R.id.currency_top_value)
-        gemCurrencyInput = findViewById(R.id.currency_bottom_value)
         getRates(applicationContext)
     }
 
@@ -70,13 +109,13 @@ class GemExchangeActivity : AppCompatActivity(){
     }
 
     private fun loadData(response: JSONObject){
-        response?.let{
+        response.let{
             gemValue = response.getString("coins_per_gem").toFloat()
             coinValue = 1/gemValue
         }
     }
 
-    fun calculateValue(what: Float,text : String) :Float{
-        return text.toFloat()*what
+    fun calculateValue(what: Float,text : Float) :Float{
+        return text*what
     }
 }
