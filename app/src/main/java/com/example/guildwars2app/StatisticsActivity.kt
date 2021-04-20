@@ -83,7 +83,7 @@ class StatisticsActivity: AppCompatActivity() {
             rankImage.setImageResource(R.drawable.rabbit_rank)
         else if(rank<20)
             rankImage.setImageResource(R.drawable.deer_rank)
-        else if(rank<20)
+        else if(rank<30)
             rankImage.setImageResource(R.drawable.dolyak_rank)
         else
             rankImage.setImageResource(R.drawable.wolf_rank)

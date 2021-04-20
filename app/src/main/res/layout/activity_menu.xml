@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:stretchColumns="*">
 
 
 
@@ -25,13 +27,7 @@
                 android:text="@string/characters"
                 tools:layout_margin="8dp" />
 
-            <Button
-                android:id="@+id/eqButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/equipment"
-                tools:layout_margin="8dp" />
+
         </TableRow>
 
         <TableRow
@@ -41,21 +37,28 @@
 
             <Button
                 android:id="@+id/dailyButton"
-                android:layout_width="match_parent"
+                android:layout_width="148dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
                 android:onClick="goToAchievements"
-                android:layout_weight="1"
-                android:text="@string/daily_achievements"
-                tools:layout_margin="8dp" />
+                android:text="@string/daily_achievements" />
 
             <Button
                 android:id="@+id/eventButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
                 android:onClick="goToStatistics"
-                android:text="@string/pvp_statistics"
-                tools:layout_margin="8dp" />
+                android:text="@string/pvp_statistics" />
+
         </TableRow>
 
         <TableRow
@@ -64,22 +67,33 @@
             android:layout_weight="1">
 
             <Button
+                android:id="@+id/walletButton"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:onClick="goToAccountWallet"
+                android:text="@string/wallet"
+                tools:layout_margin="8dp" />
+
+            <Button
                 android:id="@+id/gemsButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_weight="1"
                 android:onClick="goToGamestones"
                 android:text="@string/gemstones"
                 tools:layout_margin="8dp" />
 
-            <Button
-                android:id="@+id/walletButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/wallet"
-                android:onClick="goToAccountWallet"
-                tools:layout_margin="8dp" />
         </TableRow>
     </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

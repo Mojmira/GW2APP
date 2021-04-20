@@ -59,9 +59,14 @@ class AchievementActivity: AppCompatActivity() {
 
     private fun prepareData(response: JSONObject?, context: Context) {
 
-        var IDs = IntArray(7)
+
+
+
+        var IDs: IntArray
         response?.let{
 
+            val arrayLength = response.getJSONArray("pve").length()
+            IDs = IntArray(arrayLength)
             val tmp = response.getJSONArray("pve")
 
             for(i in 0 until tmp.length())
@@ -69,11 +74,16 @@ class AchievementActivity: AppCompatActivity() {
                 IDs[i] = tmp.getJSONObject(i).getInt("id")
             }
 
+            var newUrl = "https://api.guildwars2.com/v2/achievements?ids="
+
+            for(i in 0 until IDs.size-1)
+            {
+                newUrl += "%d,".format(IDs[i])
+            }
+            println(newUrl)
+            loadAchievementData(newUrl, context)
         }
 
-        var newUrl = "https://api.guildwars2.com/v2/achievements?ids=%d,%d,%d,%d,%d,%d".format(IDs[0],IDs[1],IDs[2],IDs[3],IDs[4],IDs[5],IDs[6])
-        println(newUrl)
-        loadAchievementData(newUrl, context)
     }
 
     private fun loadAchievementData(url: String, context: Context) {

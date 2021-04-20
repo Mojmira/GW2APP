@@ -34,4 +34,9 @@ class MenuActivity : AppCompatActivity(){
         startActivity(intent)
     }
 
+    fun goToAchievements(view: View) {
+        val intent = Intent(this, AchievementActivity::class.java)
+        startActivity(intent)
+    }
+
 }
