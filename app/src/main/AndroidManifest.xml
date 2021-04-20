@@ -33,6 +33,9 @@
         <activity
             android:name=".StatisticsActivity"
             android:parentActivityName=".MenuActivity" />
+        <activity
+            android:name=".GemExchangeActivity"
+            android:parentActivityName=".MenuActivity" />
     </application>
 
 </manifest>

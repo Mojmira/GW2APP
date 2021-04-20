@@ -24,8 +24,8 @@ class MenuActivity : AppCompatActivity(){
         startActivity(intent)
     }
 
-    fun goToAchievements(view: View) {
-        val intent = Intent(this, AchievementActivity::class.java)
+    fun goToGamestones(view: View) {
+        val intent = Intent(this, GemExchangeActivity::class.java)
         startActivity(intent)
     }
 

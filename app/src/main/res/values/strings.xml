@@ -9,4 +9,6 @@
     <string name="gemstones">Gemstones</string>
     <string name="wallet">Wallet</string>
     <string name="pvp_statistics">PvP Statistics</string>
+    <string name="currency_top_label">Coins</string>
+    <string name="currency_bottom_label">Gems</string>
 </resources>

@@ -9,10 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5" />
+
 
         <TableRow
             android:layout_width="match_parent"
@@ -71,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:onClick="goToGamestones"
                 android:text="@string/gemstones"
                 tools:layout_margin="8dp" />
 
